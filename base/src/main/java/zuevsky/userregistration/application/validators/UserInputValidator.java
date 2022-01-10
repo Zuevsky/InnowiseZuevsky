@@ -1,6 +1,5 @@
 package zuevsky.userregistration.application.validators;
 
-import zuevsky.userregistration.data.repository.UsersRepository;
 import zuevsky.userregistration.domen.User;
 
 import java.util.ArrayList;

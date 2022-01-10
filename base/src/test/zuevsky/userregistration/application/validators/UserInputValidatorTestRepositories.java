@@ -31,7 +31,7 @@ public class UserInputValidatorTestRepositories {
     }
 
     public static ArrayList<String> getPhoneList() {
-        ArrayList<String> phoneList = new ArrayList();
+        ArrayList<String> phoneList = new ArrayList<>();
         for(int i = 1; i < 10; i++) {
             String phone = "37533156" + i + "45" + i;
             phoneList.add(phone);
