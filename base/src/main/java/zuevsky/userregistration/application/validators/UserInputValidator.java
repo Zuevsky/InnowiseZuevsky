@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 
 public class UserInputValidator implements RegexValidator {
     private static final String EMAIL_REGEX =
-            "^([a-z0-9_\\.-]{3,20})@([a-z0-9_\\.-]{2,10})\\.([a-z\\.]{2,6})$";
+            "^([a-z0-9_\\.-]{3,20})@([a-z0-9_\\.-]{2,7})\\.([a-z]{2,6})$";
     private static final String NAME_REGEX = "^[A-Za-zА-Яа-я]{2,20}$";
     private static final String SURNAME_REGEX = "^[A-Za-zА-Яа-я]{2,25}$";
     private static final String PHONE_REGEX = "^375[0-9]{9}$";
@@ -21,15 +21,24 @@ public class UserInputValidator implements RegexValidator {
     public static String getEmailRegex() {
         return EMAIL_REGEX;
     }
+    public static String getNameRegex() {
+        return NAME_REGEX;
+    }
+    public static String getSurnameRegex() {
+        return SURNAME_REGEX;
+    }
+    public static String getPhoneRegex() {
+        return PHONE_REGEX;
+    }
 
     @Override
     public boolean validateRegex(String field, String regex) {
-        pattern = switch (regex) {
-            case EMAIL_REGEX -> Pattern.compile(EMAIL_REGEX);
-            case NAME_REGEX -> Pattern.compile(NAME_REGEX);
-            case SURNAME_REGEX -> Pattern.compile(SURNAME_REGEX);
-            case PHONE_REGEX -> Pattern.compile(PHONE_REGEX);
-        };
+        switch (regex) {
+            case EMAIL_REGEX -> pattern = Pattern.compile(EMAIL_REGEX);
+            case NAME_REGEX -> pattern = Pattern.compile(NAME_REGEX);
+            case SURNAME_REGEX -> pattern = Pattern.compile(SURNAME_REGEX);
+            case PHONE_REGEX -> pattern = Pattern.compile(PHONE_REGEX);
+        }
         matcher = pattern.matcher(field);
         return matcher.find();
     }
@@ -71,10 +80,10 @@ public class UserInputValidator implements RegexValidator {
         return success;
     }
 
-    public boolean validatePhone(String phone, ArrayList<String> phones) {
+    public boolean validatePhone(String phone, ArrayList<String> phones, Collection users) {
         boolean success = true;
         if (validateRegex(phone, UserInputValidator.PHONE_REGEX)) {
-            if (phoneUniqueValidate(phone, phones)) {
+            if (phoneUniqueValidate(phone, phones, users)) {
                 System.out.println("Номер принят!");
             } else {
                 System.out.println("Введенный номер телефона " +
@@ -89,9 +98,8 @@ public class UserInputValidator implements RegexValidator {
         return success;
     }
 
-    private boolean phoneUniqueValidate(String phone, ArrayList<String> phones) {
-        Collection<User> userCollection = UsersRepository.getUsers().values();
-        for (User user : userCollection) {
+    private boolean phoneUniqueValidate(String phone, ArrayList<String> phones, Collection<User> users) {
+        for (User user : users) {
             for (String userPhone : user.getPhones()) {
                 if (userPhone.equals(phone)) {
                     return false;

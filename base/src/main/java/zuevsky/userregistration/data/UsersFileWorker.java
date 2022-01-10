@@ -12,7 +12,7 @@ public class UsersFileWorker implements FileWorkFunctions<String, User> {
 
     public HashMap<String, User> getDataFromFile() throws IOException {
         BufferedReader buffer = new BufferedReader
-                (new FileReader("UserRegistration/src/main/resources/UsersDataBase.txt"));
+                (new FileReader("src/main/resources/UsersDataBase.txt"));
         HashMap<String, User> users = new HashMap<>();
         User user;
         String userString;
@@ -49,7 +49,7 @@ public class UsersFileWorker implements FileWorkFunctions<String, User> {
     public void saveDataToFile() throws IOException {
         ArrayList<User> userCollection = new ArrayList<>(UsersRepository.getUsers().values());
         BufferedWriter buffer = new BufferedWriter
-                (new FileWriter("UserRegistration/src/main/resources/UsersDataBase.txt", false));
+                (new FileWriter("src/main/resources/UsersDataBase.txt", false));
         String userString;
         for (int i = 0; i < userCollection.size(); i++) {
             User user = userCollection.get(i);

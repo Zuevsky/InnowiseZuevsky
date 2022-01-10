@@ -1,6 +1,7 @@
 package zuevsky.userregistration.application.services;
 
 import zuevsky.userregistration.application.validators.UserInputValidator;
+import zuevsky.userregistration.data.repository.UsersRepository;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -28,7 +29,7 @@ public class PhoneCollector {
         String phone;
         do {
             phone = scan.nextLine();
-        } while (!validator.validatePhone(phone, phones));
+        } while (!validator.validatePhone(phone, phones, UsersRepository.getUserCollection()));
         return phone;
     }
 
